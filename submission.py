@@ -295,11 +295,11 @@ def my_agent(observation, configuration):
                 if (i + 4 <= node.n_rows) and (j + 4 <= node.n_cols) and node.state[i][j] == node.state[i+1][j+1] == node.state[i+2][j+2] == node.state[i+3][j+3] == 2:
                     heuristic -= 10000
 
-    #             # check broken / diagonal lines
-    #             if (i + 4 <= node.n_rows) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i+1][j+1] == node.state[i+3][j+3] == 2) and (node.state[i+2][j+2] == 0):
-    #                 heuristic -= 50
-    #             if (i + 4 <= node.n_rows) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i+2][j+2] == node.state[i+3][j+3] == 2) and (node.state[i+1][j+1] == 0):
-    #                 heuristic -= 50
+                # check broken / diagonal lines
+                if (i + 4 <= node.n_rows) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i+1][j+1] == node.state[i+3][j+3] == 2) and (node.state[i+2][j+2] == 0):
+                    heuristic -= 50
+                if (i + 4 <= node.n_rows) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i+2][j+2] == node.state[i+3][j+3] == 2) and (node.state[i+1][j+1] == 0):
+                    heuristic -= 50
 
                 # check \ diagonal lines
 
@@ -321,11 +321,11 @@ def my_agent(observation, configuration):
                 if (i - 3 >= 0) and (j + 4 <= node.n_cols) and node.state[i][j] == node.state[i-1][j+1] == node.state[i-2][j+2] == node.state[i-3][j+3] == 2:
                     heuristic -= 10000
 
-    #             # check broken \ diagonal lines
-    #             if (i - 3 >= 0) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i-1][j+1] == node.state[i-3][j+3] == 2) and (node.state[i-2][j+2] == 0):
-    #                 heuristic -= 50
-    #             if (i - 3 >= 0) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i-2][j+2] == node.state[i-3][j+3] == 2) and (node.state[i-1][j+1] == 0):
-    #                 heuristic -= 50
+                # check broken \ diagonal lines
+                if (i - 3 >= 0) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i-1][j+1] == node.state[i-3][j+3] == 2) and (node.state[i-2][j+2] == 0):
+                    heuristic -= 50
+                if (i - 3 >= 0) and (j + 4 <= node.n_cols) and (node.state[i][j] == node.state[i-2][j+2] == node.state[i-3][j+3] == 2) and (node.state[i-1][j+1] == 0):
+                    heuristic -= 50
 
         return heuristic
 
@@ -380,7 +380,7 @@ def my_agent(observation, configuration):
     n_cols = configuration['columns']
     root_node = np.flipud(np.array(observation['board']).reshape((n_rows, n_cols)))
     # whenever i receive observation, its my turn
-    
-    value_of_move, best_move = minimax(root_node, depth=3, player=1) # player 1 wants max heuristic
+    p = observation.mark
+    value_of_move, best_move = minimax(root_node, depth=3, player=p) # player 1 wants max heuristic
     print('final', best_move, value_of_move)
     return best_move
